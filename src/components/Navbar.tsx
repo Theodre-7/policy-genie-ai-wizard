@@ -1,7 +1,7 @@
 
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, FileText, BookOpen, LogIn, Shield } from "lucide-react";
+import { Home, FileText, BookOpen, LogIn, Shield, Link as LinkIcon } from "lucide-react";
 
 export function Navbar() {
   const location = useLocation();
@@ -60,7 +60,12 @@ export function Navbar() {
               <span>Docs</span>
             </Link>
             
-            <Button variant="outline" size="sm" className="ml-4">
+            <Button variant="default" size="sm" className="ml-4 bg-green-600 hover:bg-green-700">
+              <LinkIcon className="h-4 w-4 mr-2" />
+              Connect AWS Account
+            </Button>
+            
+            <Button variant="outline" size="sm">
               <LogIn className="h-4 w-4 mr-2" />
               Sign In
             </Button>

@@ -22,7 +22,9 @@ import {
   Copy,
   Download,
   Play,
-  Sparkles
+  Sparkles,
+  Link as LinkIcon,
+  AlertTriangle
 } from "lucide-react";
 
 const PolicyGenerator = () => {
@@ -148,6 +150,25 @@ const PolicyGenerator = () => {
 
           {/* Center Panel - Policy Configurator */}
           <div className="lg:col-span-6 space-y-6">
+            {/* AWS Account Connection */}
+            <Card className="border-amber-200 bg-amber-50">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <AlertTriangle className="h-5 w-5 text-amber-600" />
+                    <div>
+                      <h3 className="font-medium text-amber-900">AWS Account Required</h3>
+                      <p className="text-sm text-amber-700">Connect your AWS account to proceed</p>
+                    </div>
+                  </div>
+                  <Button variant="default" className="bg-green-600 hover:bg-green-700">
+                    <LinkIcon className="h-4 w-4 mr-2" />
+                    Connect AWS Account
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Access Type */}
             <Card>
               <CardHeader>
@@ -228,7 +249,7 @@ const PolicyGenerator = () => {
                         id={option.id}
                         checked={permissions.includes(option.id)}
                         onCheckedChange={(checked) => 
-                          handlePermissionChange(option.id, checked as boolean)
+                          handlePermissionChange(option.id, checked === true)
                         }
                       />
                       <Label htmlFor={option.id} className="text-sm">
@@ -257,7 +278,7 @@ const PolicyGenerator = () => {
                       <Checkbox
                         id="time-limited"
                         checked={timeLimited}
-                        onCheckedChange={setTimeLimited}
+                        onCheckedChange={(checked) => setTimeLimited(checked === true)}
                       />
                       <Label htmlFor="time-limited">Time-limited access</Label>
                     </div>
@@ -276,7 +297,7 @@ const PolicyGenerator = () => {
                       <Checkbox
                         id="enable-logging"
                         checked={enableLogging}
-                        onCheckedChange={setEnableLogging}
+                        onCheckedChange={(checked) => setEnableLogging(checked === true)}
                       />
                       <Label htmlFor="enable-logging">Enable CloudTrail logging</Label>
                     </div>
