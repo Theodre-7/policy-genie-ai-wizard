@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import PolicyGenerator from "./pages/PolicyGenerator";
 import PolicyExplainer from "./pages/PolicyExplainer";
 import Docs from "./pages/Docs";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/generator" element={<PolicyGenerator />} />
             <Route path="/explain" element={<PolicyExplainer />} />
             <Route path="/docs" element={<Docs />} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

@@ -65,10 +65,12 @@ export function Navbar() {
               Connect AWS Account
             </Button>
             
-            <Button variant="outline" size="sm">
-              <LogIn className="h-4 w-4 mr-2" />
-              Sign In
-            </Button>
+            <Link to="/auth">
+              <Button variant="outline" size="sm">
+                <LogIn className="h-4 w-4 mr-2" />
+                Sign In
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
