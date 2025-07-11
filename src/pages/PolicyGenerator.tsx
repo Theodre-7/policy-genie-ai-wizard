@@ -130,7 +130,7 @@ const PolicyGenerator = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 text-slate-50">S3 Policy Generator</h1>
-          <p className="text-gray-600">Create secure S3 bucket policies with our AI-powered tool</p>
+          <p className="text-slate-300">Create secure S3 bucket policies with our AI-powered tool</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
