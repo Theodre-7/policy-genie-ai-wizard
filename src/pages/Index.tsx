@@ -11,7 +11,8 @@ import {
   Globe, 
   Lock,
   FileText,
-  Sparkles
+  Sparkles,
+  BookOpen
 } from "lucide-react";
 import { TypewriterText } from "@/components/TypewriterText";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
@@ -76,14 +77,16 @@ const Index = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/generator">
-                <Button size="lg" className="bg-white/20 hover:bg-white/30 text-white text-lg px-8 py-3 rounded-2xl backdrop-blur-sm border border-white/20">
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-black hover:from-purple-700 hover:to-gray-900 text-white text-lg px-8 py-3 rounded-2xl backdrop-blur-sm border border-white/20">
+                  <Sparkles className="mr-2 h-5 w-5" />
                   Generate Policy Now
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               
               <Link to="/docs">
-                <Button variant="outline" size="lg" className="text-lg px-8 py-3 rounded-2xl border-white/20 text-white hover:bg-white/10">
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-black hover:from-purple-700 hover:to-gray-900 text-white text-lg px-8 py-3 rounded-2xl backdrop-blur-sm border border-white/20">
+                  <BookOpen className="mr-2 h-5 w-5" />
                   View Documentation
                 </Button>
               </Link>
@@ -164,7 +167,8 @@ const Index = () => {
             Start generating secure S3 bucket policies in seconds
           </p>
           <Link to="/generator">
-            <Button size="lg" className="bg-white/20 hover:bg-white/30 text-white text-lg px-8 py-3 rounded-2xl backdrop-blur-sm border border-white/20">
+            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-black hover:from-purple-700 hover:to-gray-900 text-white text-lg px-8 py-3 rounded-2xl backdrop-blur-sm border border-white/20">
+              <Sparkles className="mr-2 h-5 w-5" />
               Get Started Free
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>

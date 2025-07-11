@@ -1,18 +1,31 @@
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, FileText, BookOpen, LogIn, Shield, Link as LinkIcon } from "lucide-react";
+import { Home, FileText, BookOpen, LogIn, LogOut, Shield, Link as LinkIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 export function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   
   const isActive = (path: string) => {
     return location.pathname === path;
   };
 
   const handleAWSConnect = () => {
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to connect your AWS account.",
+      });
+      navigate("/auth");
+      return;
+    }
+
     toast({
       title: "Connecting to AWS...",
       description: "Please wait while we establish connection to your AWS account.",
@@ -25,6 +38,23 @@ export function Navbar() {
         description: "You will be redirected to AWS for authentication.",
       });
     }, 2000);
+  };
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign out. Please try again.",
+      });
+    } else {
+      toast({
+        title: "Signed out",
+        description: "You have been successfully signed out.",
+      });
+      navigate("/");
+    }
   };
 
   return (
@@ -87,17 +117,29 @@ export function Navbar() {
               Connect AWS Account
             </Button>
             
-            <Link
-              to="/auth"
-              className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive("/auth")
-                  ? "text-white bg-white/20"
-                  : "text-white/80 hover:text-white hover:bg-white/10"
-              }`}
-            >
-              <LogIn className="h-4 w-4" />
-              <span>Sign In</span>
-            </Link>
+            {user ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSignOut}
+                className="text-white/80 hover:text-white hover:bg-white/10"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
+            ) : (
+              <Link
+                to="/auth"
+                className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  isActive("/auth")
+                    ? "text-white bg-white/20"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                <LogIn className="h-4 w-4" />
+                <span>Sign In</span>
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
