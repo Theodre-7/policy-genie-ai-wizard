@@ -297,7 +297,7 @@ const PolicyGenerator = () => {
             {/* Generate Button */}
             <Button
               onClick={generatePolicy}
-              className="w-full bg-white/20 hover:bg-white/30 text-white text-lg py-3 rounded-2xl backdrop-blur-sm border border-white/20"
+              className="w-full bg-gradient-to-r from-purple-600 to-black hover:from-purple-700 hover:to-gray-900 text-white text-lg py-3 rounded-2xl backdrop-blur-sm border border-white/20"
               disabled={!bucketName}
             >
               <Sparkles className="mr-2 h-5 w-5" />

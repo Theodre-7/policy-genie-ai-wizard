@@ -87,11 +87,16 @@ export function Navbar() {
               Connect AWS Account
             </Button>
             
-            <Link to="/auth">
-              <Button variant="outline" size="sm" className="border-white/20 text-white hover:bg-white/10">
-                <LogIn className="h-4 w-4 mr-2" />
-                Sign In
-              </Button>
+            <Link
+              to="/auth"
+              className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                isActive("/auth")
+                  ? "text-white bg-white/20"
+                  : "text-white/80 hover:text-white hover:bg-white/10"
+              }`}
+            >
+              <LogIn className="h-4 w-4" />
+              <span>Sign In</span>
             </Link>
           </div>
 
