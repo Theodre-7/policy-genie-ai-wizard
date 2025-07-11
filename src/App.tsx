@@ -20,7 +20,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #6B1BFF 0%, #FF1B9D 100%)' }}>
           <Navbar />
           <Routes>
             <Route path="/" element={<Index />} />
