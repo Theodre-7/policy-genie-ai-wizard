@@ -87,16 +87,16 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-center mb-8">
-          <Link to="/" className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
+          <Link to="/" className="flex items-center space-x-2 text-white/80 hover:text-white transition-colors">
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Home</span>
           </Link>
         </div>
 
-        <Card className="shadow-xl border-0">
+        <Card className="shadow-2xl border-0 bg-white/95 backdrop-blur-sm">
           <CardHeader className="text-center">
             <div className="flex justify-center mb-4">
               <div className="bg-indigo-600 p-3 rounded-xl">
