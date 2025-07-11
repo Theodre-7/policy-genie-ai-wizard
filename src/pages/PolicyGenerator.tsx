@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,26 +8,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  Globe, 
-  User, 
-  RefreshCw, 
-  Folder, 
-  MapPin, 
-  Upload, 
-  Eye, 
-  FileText,
-  ChevronDown,
-  Copy,
-  Download,
-  Play,
-  Sparkles,
-  Link as LinkIcon,
-  AlertTriangle
-} from "lucide-react";
-
+import { Globe, User, RefreshCw, Folder, MapPin, Upload, Eye, FileText, ChevronDown, Copy, Download, Play, Sparkles, Link as LinkIcon, AlertTriangle } from "lucide-react";
 const PolicyGenerator = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [accessType, setAccessType] = useState("public-read");
   const [bucketName, setBucketName] = useState("");
   const [folderPrefix, setFolderPrefix] = useState("");
@@ -39,27 +23,58 @@ const PolicyGenerator = () => {
   const [ipWhitelist, setIpWhitelist] = useState("");
   const [enableLogging, setEnableLogging] = useState(false);
   const [generatedPolicy, setGeneratedPolicy] = useState("");
-
-  const shortcuts = [
-    { icon: <Globe className="h-4 w-4" />, label: "Public Access", type: "public-read" },
-    { icon: <User className="h-4 w-4" />, label: "Specific IAM User", type: "iam-user" },
-    { icon: <RefreshCw className="h-4 w-4" />, label: "Cross-Account Access", type: "cross-account" },
-    { icon: <Folder className="h-4 w-4" />, label: "Folder-Level Access", type: "folder-specific" },
-    { icon: <MapPin className="h-4 w-4" />, label: "IP/VPC Restrictions", type: "ip-based" },
-    { icon: <Upload className="h-4 w-4" />, label: "Upload-only Policy", type: "upload-only" },
-    { icon: <Eye className="h-4 w-4" />, label: "Read-only Policy", type: "read-only" },
-    { icon: <FileText className="h-4 w-4" />, label: "Logging Policy", type: "logging" },
-  ];
-
-  const permissionOptions = [
-    { id: "GetObject", label: "GetObject (Read files)" },
-    { id: "PutObject", label: "PutObject (Upload files)" },
-    { id: "ListBucket", label: "ListBucket (List contents)" },
-    { id: "DeleteObject", label: "DeleteObject (Delete files)" },
-    { id: "GetBucketLocation", label: "GetBucketLocation" },
-    { id: "*", label: "All Actions (Full access)" },
-  ];
-
+  const shortcuts = [{
+    icon: <Globe className="h-4 w-4" />,
+    label: "Public Access",
+    type: "public-read"
+  }, {
+    icon: <User className="h-4 w-4" />,
+    label: "Specific IAM User",
+    type: "iam-user"
+  }, {
+    icon: <RefreshCw className="h-4 w-4" />,
+    label: "Cross-Account Access",
+    type: "cross-account"
+  }, {
+    icon: <Folder className="h-4 w-4" />,
+    label: "Folder-Level Access",
+    type: "folder-specific"
+  }, {
+    icon: <MapPin className="h-4 w-4" />,
+    label: "IP/VPC Restrictions",
+    type: "ip-based"
+  }, {
+    icon: <Upload className="h-4 w-4" />,
+    label: "Upload-only Policy",
+    type: "upload-only"
+  }, {
+    icon: <Eye className="h-4 w-4" />,
+    label: "Read-only Policy",
+    type: "read-only"
+  }, {
+    icon: <FileText className="h-4 w-4" />,
+    label: "Logging Policy",
+    type: "logging"
+  }];
+  const permissionOptions = [{
+    id: "GetObject",
+    label: "GetObject (Read files)"
+  }, {
+    id: "PutObject",
+    label: "PutObject (Upload files)"
+  }, {
+    id: "ListBucket",
+    label: "ListBucket (List contents)"
+  }, {
+    id: "DeleteObject",
+    label: "DeleteObject (Delete files)"
+  }, {
+    id: "GetBucketLocation",
+    label: "GetBucketLocation"
+  }, {
+    id: "*",
+    label: "All Actions (Full access)"
+  }];
   const handlePermissionChange = (permission: string, checked: boolean) => {
     if (checked) {
       setPermissions([...permissions, permission]);
@@ -67,48 +82,43 @@ const PolicyGenerator = () => {
       setPermissions(permissions.filter(p => p !== permission));
     }
   };
-
   const generatePolicy = () => {
     const policy = {
       Version: "2012-10-17",
-      Statement: [
-        {
-          Sid: "GeneratedPolicy",
-          Effect: "Allow",
-          Principal: accessType === "public-read" ? "*" : { AWS: principalArn },
-          Action: permissions.map(p => p === "*" ? "s3:*" : `s3:${p}`),
-          Resource: [
-            `arn:aws:s3:::${bucketName}${folderPrefix ? `/${folderPrefix}` : ""}`,
-            `arn:aws:s3:::${bucketName}${folderPrefix ? `/${folderPrefix}/*` : "/*"}`
-          ],
-          ...(ipWhitelist && {
-            Condition: {
-              IpAddress: {
-                "aws:SourceIp": ipWhitelist.split(",").map(ip => ip.trim())
-              }
+      Statement: [{
+        Sid: "GeneratedPolicy",
+        Effect: "Allow",
+        Principal: accessType === "public-read" ? "*" : {
+          AWS: principalArn
+        },
+        Action: permissions.map(p => p === "*" ? "s3:*" : `s3:${p}`),
+        Resource: [`arn:aws:s3:::${bucketName}${folderPrefix ? `/${folderPrefix}` : ""}`, `arn:aws:s3:::${bucketName}${folderPrefix ? `/${folderPrefix}/*` : "/*"}`],
+        ...(ipWhitelist && {
+          Condition: {
+            IpAddress: {
+              "aws:SourceIp": ipWhitelist.split(",").map(ip => ip.trim())
             }
-          })
-        }
-      ]
+          }
+        })
+      }]
     };
-
     setGeneratedPolicy(JSON.stringify(policy, null, 2));
     toast({
       title: "Policy Generated!",
-      description: "Your S3 bucket policy has been generated successfully.",
+      description: "Your S3 bucket policy has been generated successfully."
     });
   };
-
   const copyToClipboard = () => {
     navigator.clipboard.writeText(generatedPolicy);
     toast({
       title: "Copied!",
-      description: "Policy copied to clipboard.",
+      description: "Policy copied to clipboard."
     });
   };
-
   const downloadPolicy = () => {
-    const blob = new Blob([generatedPolicy], { type: "application/json" });
+    const blob = new Blob([generatedPolicy], {
+      type: "application/json"
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -116,12 +126,10 @@ const PolicyGenerator = () => {
     a.click();
     URL.revokeObjectURL(url);
   };
-
-  return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-8">
+  return <div className="min-h-screen p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">S3 Policy Generator</h1>
+          <h1 className="text-3xl font-bold mb-2 text-slate-50">S3 Policy Generator</h1>
           <p className="text-gray-600">Create secure S3 bucket policies with our AI-powered tool</p>
         </div>
 
@@ -133,17 +141,10 @@ const PolicyGenerator = () => {
                 <CardTitle className="text-lg">Policy Shortcuts</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {shortcuts.map((shortcut, index) => (
-                  <Button
-                    key={index}
-                    variant={accessType === shortcut.type ? "default" : "ghost"}
-                    className="w-full justify-start"
-                    onClick={() => setAccessType(shortcut.type)}
-                  >
+                {shortcuts.map((shortcut, index) => <Button key={index} variant={accessType === shortcut.type ? "default" : "ghost"} className="w-full justify-start" onClick={() => setAccessType(shortcut.type)}>
                     {shortcut.icon}
                     <span className="ml-2">{shortcut.label}</span>
-                  </Button>
-                ))}
+                  </Button>)}
               </CardContent>
             </Card>
           </div>
@@ -204,35 +205,18 @@ const PolicyGenerator = () => {
               <CardContent className="space-y-4">
                 <div>
                   <Label htmlFor="bucket-name">Bucket Name *</Label>
-                  <Input
-                    id="bucket-name"
-                    placeholder="my-s3-bucket"
-                    value={bucketName}
-                    onChange={(e) => setBucketName(e.target.value)}
-                  />
+                  <Input id="bucket-name" placeholder="my-s3-bucket" value={bucketName} onChange={e => setBucketName(e.target.value)} />
                 </div>
                 
                 <div>
                   <Label htmlFor="folder-prefix">Folder/Key Prefix (Optional)</Label>
-                  <Input
-                    id="folder-prefix"
-                    placeholder="logs/ or uploads/images/"
-                    value={folderPrefix}
-                    onChange={(e) => setFolderPrefix(e.target.value)}
-                  />
+                  <Input id="folder-prefix" placeholder="logs/ or uploads/images/" value={folderPrefix} onChange={e => setFolderPrefix(e.target.value)} />
                 </div>
                 
-                {(accessType === "iam-user" || accessType === "cross-account") && (
-                  <div>
+                {(accessType === "iam-user" || accessType === "cross-account") && <div>
                     <Label htmlFor="principal-arn">IAM Principal ARN *</Label>
-                    <Input
-                      id="principal-arn"
-                      placeholder="arn:aws:iam::123456789012:user/username"
-                      value={principalArn}
-                      onChange={(e) => setPrincipalArn(e.target.value)}
-                    />
-                  </div>
-                )}
+                    <Input id="principal-arn" placeholder="arn:aws:iam::123456789012:user/username" value={principalArn} onChange={e => setPrincipalArn(e.target.value)} />
+                  </div>}
               </CardContent>
             </Card>
 
@@ -243,20 +227,12 @@ const PolicyGenerator = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {permissionOptions.map((option) => (
-                    <div key={option.id} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={option.id}
-                        checked={permissions.includes(option.id)}
-                        onCheckedChange={(checked) => 
-                          handlePermissionChange(option.id, checked === true)
-                        }
-                      />
+                  {permissionOptions.map(option => <div key={option.id} className="flex items-center space-x-2">
+                      <Checkbox id={option.id} checked={permissions.includes(option.id)} onCheckedChange={checked => handlePermissionChange(option.id, checked === true)} />
                       <Label htmlFor={option.id} className="text-sm">
                         {option.label}
                       </Label>
-                    </div>
-                  ))}
+                    </div>)}
                 </div>
               </CardContent>
             </Card>
@@ -275,30 +251,17 @@ const PolicyGenerator = () => {
                 <CollapsibleContent>
                   <CardContent className="space-y-4">
                     <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="time-limited"
-                        checked={timeLimited}
-                        onCheckedChange={(checked) => setTimeLimited(checked === true)}
-                      />
+                      <Checkbox id="time-limited" checked={timeLimited} onCheckedChange={checked => setTimeLimited(checked === true)} />
                       <Label htmlFor="time-limited">Time-limited access</Label>
                     </div>
                     
                     <div>
                       <Label htmlFor="ip-whitelist">IP Whitelist (comma-separated)</Label>
-                      <Input
-                        id="ip-whitelist"
-                        placeholder="192.168.1.0/24, 10.0.0.0/8"
-                        value={ipWhitelist}
-                        onChange={(e) => setIpWhitelist(e.target.value)}
-                      />
+                      <Input id="ip-whitelist" placeholder="192.168.1.0/24, 10.0.0.0/8" value={ipWhitelist} onChange={e => setIpWhitelist(e.target.value)} />
                     </div>
                     
                     <div className="flex items-center space-x-2">
-                      <Checkbox
-                        id="enable-logging"
-                        checked={enableLogging}
-                        onCheckedChange={(checked) => setEnableLogging(checked === true)}
-                      />
+                      <Checkbox id="enable-logging" checked={enableLogging} onCheckedChange={checked => setEnableLogging(checked === true)} />
                       <Label htmlFor="enable-logging">Enable CloudTrail logging</Label>
                     </div>
                   </CardContent>
@@ -307,11 +270,7 @@ const PolicyGenerator = () => {
             </Card>
 
             {/* Generate Button */}
-            <Button 
-              onClick={generatePolicy} 
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-lg py-3 rounded-2xl"
-              disabled={!bucketName}
-            >
+            <Button onClick={generatePolicy} className="w-full bg-indigo-600 hover:bg-indigo-700 text-lg py-3 rounded-2xl" disabled={!bucketName}>
               <Sparkles className="mr-2 h-5 w-5" />
               Generate Policy
             </Button>
@@ -324,13 +283,8 @@ const PolicyGenerator = () => {
                 <CardTitle>Live Policy Preview</CardTitle>
               </CardHeader>
               <CardContent>
-                {generatedPolicy ? (
-                  <div className="space-y-4">
-                    <Textarea
-                      value={generatedPolicy}
-                      readOnly
-                      className="min-h-[300px] font-mono text-xs bg-gray-900 text-green-400 border-gray-700"
-                    />
+                {generatedPolicy ? <div className="space-y-4">
+                    <Textarea value={generatedPolicy} readOnly className="min-h-[300px] font-mono text-xs bg-gray-900 text-green-400 border-gray-700" />
                     
                     <div className="flex flex-col gap-2">
                       <Button variant="outline" size="sm" onClick={copyToClipboard}>
@@ -348,20 +302,15 @@ const PolicyGenerator = () => {
                         Simulate in AWS
                       </Button>
                     </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
+                  </div> : <div className="text-center py-12">
                     <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                     <p className="text-gray-500">Configure your policy settings and click "Generate Policy" to see the JSON preview.</p>
-                  </div>
-                )}
+                  </div>}
               </CardContent>
             </Card>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default PolicyGenerator;
